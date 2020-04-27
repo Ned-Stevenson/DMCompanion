@@ -3,22 +3,18 @@ import Alignment
 import Race
 import Class
 import Armour
+import Skill
 
 if __name__ == "__main__":
     print("Please run DMCompanion.py")
     quit()
 
-strength = auto()
-dexterity = auto()
-constitution = auto()
-wisdom = auto()
-intelligence = auto()
-charisma = auto()
-
-class Skill:
-    def __init__(self):
-        raise NotImplementedError
-
+strength = Skill.strength
+dexterity = Skill.dexterity
+constitution = Skill.constitution
+intelligence = Skill.intelligence
+wisdom = Skill.wisdom
+charisma = Skill.charisma
 
 class Player:
     def __init__(self, PlayerName:str, CharacterName:str, Race:Race.Subrace, Class:Class.Class, Str:int, Dex:int, Con:int, Int:int, Wis:int, Cha:int, Armour:Armour.Armour, MaxHP:int, Alignment:Alignment.Alignment,Level:int=1):
@@ -77,8 +73,11 @@ class Player:
     
     @property
     def PP(self):
-        return 10 + self.__stats[wisdom] + self.profBonus * (Skill.Perception in self.__skills)
+        return 10 + self.__stats[wisdom] + self.profBonus * (Skill.perception in self.__skills)
     
     @property
     def profBonus(self):
         return 2 + (self.__level-1)//4
+
+def createPlayer():
+    raise NotImplementedError

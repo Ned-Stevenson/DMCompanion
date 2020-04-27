@@ -1,8 +1,6 @@
 import Player
-import Race
-import Class
-import Armour
 import NPC
+from enum import auto, Enum
 
 class Dice:
     def __init__(self, number:int, sides:int):
@@ -23,3 +21,23 @@ class Dice:
     @number.setter
     def number(self, val):
         self.__number = val
+
+class Money(Enum):
+    CP = auto()
+    SP = auto()
+    GP = auto()
+    PP = auto()
+
+    def convert(self, From, To, Ammount):
+        raise NotImplementedError
+
+class Party:
+    def __init__(self):
+        self.__players = []
+        self.__money = {Money.CP:0, Money.SP:0, Money.GP:0, Money.PP:0}
+
+    def addPlayer(self):
+        self.__players.append(Player.createPlayer())
+
+    def killPlayer(self, player:Player.Player):
+        self.__players.remove(player)
