@@ -1,8 +1,10 @@
 from abc import ABC, abstractmethod
 import Player
-import Race
-import Class
-import Alignment
+import Party
+
+if __name__ == "__main__":
+    print("Please run DMCompanion instead")
+    quit()
 
 class UI(ABC):
     @abstractmethod
@@ -15,52 +17,22 @@ class UI(ABC):
 
 class Terminal(UI):
     def __init__(self):
-        raise NotImplementedError
+        self.__options = {"Close Application":quit, "Create Player":self.createPlayer, "List Characters":self.listCharacters}
 
     def run(self):
-        raise NotImplementedError
+        while True:
+            self.menu()()
+        
+    def menu(self):
+        for i, option in enumerate(self.__options):
+            print(f"{i})\t{option}")
+        action = list(self.__options)[int(input("Input the number of the action to do: "))]
+        return self.__options[action]
 
     def createPlayer(self):
         PlayerName = input("Input the player's name: ")
         CharacterName = input("Input the character's name: ")
 
-        def choseRace()->Race.Subrace:
-            print("Races:")
-            r = "\n".join([x+1+")\t"+Race for x, Race in enumerate(Race.Races)]) #A numbered list of races available
-            print(r)
-            while True:
-                try:
-                    superRace = Race.Races[int(input("Input the number of the race to use: "))-1]
-                    count = 1
-                    subRaces = []
-                    for subRace in Race.subRaces:
-                        if subRace.superRace == superRace:
-                            subRaces.append(subRace)
-                            print(f"{count})\t{subRace}")
-                            count += 1
-                    return subRaces[int(input("Input the number of the sub-race to use: "))-1]
-                except (ValueError, IndexError) as e:
-                    if e==ValueError:
-                        print("Please input a valid number!")
-                    else:
-                        print("Please input a number in the range!")
-                else:
-                    break
-        
-        def choseClass()->Class.Class:
-            c = "\n".join([x+1+")\t"+Class for x, Class in enumerate(Class.Clases)]) #A numbered list of classes available
-            print(c)
-            while True:
-                try:
-                    return Class.Classes[int(input("Input the number of the class to use: "))-1]
-                except (ValueError, IndexError) as e:
-                    if e==ValueError:
-                        print("Please input a valid number!")
-                    else:
-                        print("Please input a number in the range!")
-                else:
-                    break
-        
         def choseStats()->list:
             print("Please input stats:")
             stats = []
@@ -68,26 +40,16 @@ class Terminal(UI):
                 stats.append(int(input(f"{s}: ")))
             return stats
         
-        c = choseClass()
-        stats = choseStats()
-        MaxHP = c.HP(stats[2])#Stats[2] is the constitution score of the character
 
-        def choseAlignment()->Alignment.Alignment:
-            while True:
-                try:
-                    l = input("Lawful/Neutral/Chaotic: ").lower()[0]
-                    m = input("Good/Neutral/Evil: ").lower()[0]
-                    lDict = {"l":Alignment.lawful, "n":Alignment.neutral, "c":Alignment.chaotic}
-                    mDict = {"g":Alignment.good, "n":Alignment.neutral, "e":Alignment.evil}
-                    return Alignment.Alignment(lDict[l], mDict[m])
-                except KeyError:
-                    print("Please input a valid alignment!")
-                else:
-                    break
+        MaxHP = int(input("Input the HP of the character: "))
         
-        Str, Dex, Con, Wis, Int, Cha = stats
+        Str, Dex, Con, Wis, Int, Cha = choseStats()
+
         Level = int(input("Input the level of the character: "))
-        Player.Player(PlayerName, CharacterName, choseRace(), c, Str, Dex, Con, Wis, Int, Cha, MaxHP, choseAlignment(), Level)
+        Party.party.addPlayer(Player.Player(PlayerName, CharacterName, Str, Dex, Con, Wis, Int, Cha, MaxHP, Level))
+
+    def listCharacters(self):
+        print(Party.party)
 
 class GUI(UI):
     def __init__(self):

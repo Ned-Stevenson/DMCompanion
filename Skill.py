@@ -1,5 +1,9 @@
 from enum import auto
 
+if __name__ == "__main__":
+    print("Please run DMCompanion instead")
+    quit()
+
 strength = auto()
 dexterity = auto()
 constitution = auto()
