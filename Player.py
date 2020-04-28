@@ -4,6 +4,7 @@ import Race
 import Class
 import Armour
 import Skill
+import random
 
 if __name__ == "__main__":
     print("Please run DMCompanion.py")
@@ -53,27 +54,50 @@ class Player:
         HP:{self.__hp}/{self.__maxHP}"""
     
     def mod(self, stat:auto):
+        """Returns the modifier of a player's requested stat
+        Arguments: The auto ID of the stat"""
         return (self.__stats[stat]-10)//2
     
     def modStr(self, stat:auto):
+        """Returns a string representation of a stat modifier
+        Arguments: The auto ID of the stat"""
         m = self.mod(stat)
         return f"+{m}" if m >= 0 else str(m)
     
     def longRest(self):
+        """Regains HP and hit dice. Spells pending"""
         self.__hp = self.__maxHP
         hitDiceGain = 1 if self.__maxHitDice.number == 1 else self.__maxHitDice.number//2 
         if self.__maxHitDice.number - self.__hitDice.number <= hitDiceGain:
-            self.__hitDice.number = self.__maxHitDice.number
+            self.__hitDice = self.__maxHitDice
         else:
-            self.__hitDice.number += hitDiceGain
+            self.__hitDice += hitDiceGain
+
+    def spendHitDice(self, heal:int=0)->int:
+        """Spends a hit dice on a player and heals HP
+        Input the number of HP to heal in \"heal\" argument to heal set number of HP or 0 for randint
+        Returns the number of HP healed"""
+        assert heal > 0
+        if self.__hitDice.number > 0:
+            if heal == 0:
+                self.__hitDice -= 1
+                heal = random.randint(1, self.__hitDice.sides)+self.mod(self.__stats[constitution])
+            if self.__hp >= self.__maxHP - heal:
+                self.__hp = self.__maxHP
+            else:
+                self.__hp += heal
+        return heal
+
 
     @property
     def AC(self):
-        return self.__armour.ac(self.__stats[dexterity])
+        if self.__armour == None:
+            return 10 + self.mod(dexterity)
+        return self.__armour.ac(self.mod(dexterity))
     
     @property
     def PP(self):
-        return 10 + self.__stats[wisdom] + self.profBonus * (Skill.perception in self.__skills)
+        return 10 + self.mod(wisdom) + self.profBonus * (Skill.perception in self.__skills)
     
     @property
     def profBonus(self):

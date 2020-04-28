@@ -93,5 +93,8 @@ class GUI(UI):
     def __init__(self):
         raise NotImplementedError
 
+    def run(self):
+        raise NotImplementedError
+
     def createPlayer(self):
         raise NotImplementedError
