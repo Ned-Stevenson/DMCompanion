@@ -9,10 +9,13 @@ class Race:
     def __repr__(self):
         return self.__name
 
-
 class Subrace(Race):
-    def __init__(self, Name:str):
+    def __init__(self, Name:str, SuperRace:Race):
         self.__name = Name
+        self.__superRace = SuperRace
     
     def __repr__(self):
-        return f"{self.__name} {super()}"
+        return f"{self.__name} {self.__superRace}"
+    
+Races = []
+subRaces = []

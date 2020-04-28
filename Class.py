@@ -5,3 +5,5 @@ if __name__ == "__main__":
 class Class:
     def __init__(self):
         raise NotImplementedError
+
+Classes = []

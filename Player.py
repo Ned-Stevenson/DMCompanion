@@ -17,14 +17,14 @@ wisdom = Skill.wisdom
 charisma = Skill.charisma
 
 class Player:
-    def __init__(self, PlayerName:str, CharacterName:str, Race:Race.Subrace, Class:Class.Class, Str:int, Dex:int, Con:int, Int:int, Wis:int, Cha:int, Armour:Armour.Armour, MaxHP:int, Alignment:Alignment.Alignment,Level:int=1):
+    def __init__(self, PlayerName:str, CharacterName:str, Race:Race.Subrace, Class:Class.Class, Str:int, Dex:int, Con:int, Int:int, Wis:int, Cha:int, MaxHP:int, Alignment:Alignment.Alignment,Level:int=1):
         self.__stats = {strength:Str, dexterity:Dex, constitution:Con, intelligence:Int, wisdom:Wis, charisma:Cha}
         self.__playerName = PlayerName
         self.__characterName = CharacterName
         self.__race = Race
         self.__class = Class
         self.__level = Level
-        self.__armour = Armour
+        self.__armour = None
         self.__maxHP = MaxHP
         self.__hp = MaxHP
         self.__skills = []
@@ -78,6 +78,3 @@ class Player:
     @property
     def profBonus(self):
         return 2 + (self.__level-1)//4
-
-def createPlayer():
-    raise NotImplementedError
