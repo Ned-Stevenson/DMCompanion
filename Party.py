@@ -136,4 +136,8 @@ class Party:
     def killPlayer(self, player):
         self.__players.remove(player)
 
+    @property
+    def players(self):
+        return self.__players
+
 party = Party()

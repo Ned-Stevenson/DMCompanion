@@ -13,13 +13,14 @@ wisdom = Skill.wisdom
 charisma = Skill.charisma
 
 class Player:
-    def __init__(self, PlayerName:str, CharacterName:str,Str:int, Dex:int, Con:int, Int:int, Wis:int, Cha:int, MaxHP:int, Level:int=1):
+    def __init__(self, PlayerName:str, CharacterName:str,Str:int, Dex:int, Con:int, Int:int, Wis:int, Cha:int, MaxHP:int, Level:int=1, Xp:int=0):
         self.__stats = {strength:Str, dexterity:Dex, constitution:Con, intelligence:Int, wisdom:Wis, charisma:Cha}
         self.__playerName = PlayerName
         self.__characterName = CharacterName
-        self.__level = Level
         self.__maxHP = MaxHP
         self.__hp = MaxHP
+        self.__level = Level
+        self.__xp = Xp
         self.__skills = []
     
     def __repr__(self):
@@ -55,6 +56,9 @@ class Player:
         """Regains all HP"""
         self.__hp = self.__maxHP
     
+    def assignXP(self, quantity):
+        self.__xp += quantity
+
     @property
     def PP(self):
         return 10 + self.mod(wisdom) + self.profBonus * (Skill.perception in self.__skills)
@@ -62,3 +66,16 @@ class Player:
     @property
     def profBonus(self):
         return 2 + (self.__level-1)//4
+    
+    @property
+    def AC(self):
+        #return self.__armour.ac(self.mod(dexterity)) + armour.shield in self.__inventory
+        raise NotImplementedError
+
+    @property
+    def playerName(self):
+        return self.__playerName
+    
+    @property
+    def characterName(self):
+        return self.__characterName

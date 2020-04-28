@@ -17,13 +17,14 @@ class UI(ABC):
 
 class Terminal(UI):
     def __init__(self):
-        self.__options = {"Close Application":quit, "Create Player":self.createPlayer, "List Characters":self.listCharacters}
+        self.__options = {"Close Application":quit, "Create Player":self.createPlayer, "List Characters":self.listCharacters, "View Player":self.viewPlayer}
 
     def run(self):
         while True:
             self.menu()()
         
     def menu(self):
+        print("\n------------------------------------------\n")
         for i, option in enumerate(self.__options):
             print(f"{i})\t{option}")
         action = list(self.__options)[int(input("Input the number of the action to do: "))]
@@ -50,6 +51,15 @@ class Terminal(UI):
 
     def listCharacters(self):
         print(Party.party)
+    
+    def viewPlayer(self):
+        if len(Party.party.players) == 0:
+            print("There are no players in the party. Please create a player to use this feature")
+            return
+        for i, player in enumerate(Party.party.players):
+            print(f"{i+1})\t{player.playerName}/{player.characterName}")
+        p = int(input("Input the number of the player to view: "))
+        print(Party.party.players[p-1])
 
 class GUI(UI):
     def __init__(self):
