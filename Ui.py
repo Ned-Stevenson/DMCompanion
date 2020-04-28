@@ -63,6 +63,9 @@ class Terminal(UI):
         print(Party.party.players[p-1])
     
     def configurePartyMoney(self):
+        if not World.economy:
+            print("First, configure the value and names of coins used")
+            return
         print(World.economy)
         d = {}
         for coin, value in World.economy:

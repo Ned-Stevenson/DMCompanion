@@ -37,10 +37,7 @@ class Money:
         return self.__exchange
 
 class Account(Money):
-    def __init__(self, initialMoney = {}):
-        if not initialMoney:
-            for coin in Money.exchange:
-                initialMoney[coin] = 0
+    def __init__(self, initialMoney):
         self.__money = initialMoney
 
     def spendMoney(self, ammount:int, coin:str):
