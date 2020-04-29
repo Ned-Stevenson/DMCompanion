@@ -10,8 +10,12 @@ def save():
     """Save character sheets and world progress before crashing from exception"""
     pass
 
+def load():
+    """Load a save"""
+    pass
+
 try:
     UI.run()
-except Exception as e:
+except Exception as e: #When exception is encountered, save before raising the exception
     save()
     raise e

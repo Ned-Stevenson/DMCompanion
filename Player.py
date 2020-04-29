@@ -61,10 +61,12 @@ class Player:
 
     @property
     def PP(self):
+        """Passive perception"""
         return 10 + self.mod(wisdom) + self.profBonus * (Skill.perception in self.__skills)
     
     @property
     def profBonus(self):
+        """Proficiency Bonus"""
         return 2 + (self.__level-1)//4
     
     @property

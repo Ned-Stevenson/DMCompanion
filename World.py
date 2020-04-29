@@ -56,3 +56,23 @@ class Account(Money):
         for coin, number in self.__money:
             value += number * super().exchange[coin]
         return value
+
+class Location:
+    def __init__(self, Name:str, Type:str, Notes:str):
+        self.__name = Name
+        self.__type = Type
+        self.__notes = Notes
+    
+    def __repr__(self):
+        article = "an" if self.__type[0].lower() in 'aeiou' else "a"
+        return f"{self.__name} is {article} {self.__type}\n{self.__notes}"
+
+    @property
+    def name(self):
+        return self.__name
+    
+    @property
+    def notes(self):
+        return self.__notes
+
+locations = []

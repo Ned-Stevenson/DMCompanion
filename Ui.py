@@ -25,6 +25,7 @@ class Terminal(UI):
             self.menu()()
         
     def menu(self):
+        """List the avaliable functions to run, taken from self.__options, and run the asociated function"""
         print("\n------------------------------------------\n")
         for i, option in enumerate(self.__options):
             print(f"{i})\t{option}")
@@ -39,9 +40,12 @@ class Terminal(UI):
             print("Please input stats:")
             stats = []
             for s in ("STR", "DEX", "CON", "INT", "WIS", "CHA"):
-                stats.append(int(input(f"{s}: ")))
+                try:
+                    stats.append(int(input(f"{s}: ")))
+                except ValueError:
+                    print("That is not a valid input")
+                    continue
             return stats
-        
 
         MaxHP = int(input("Input the HP of the character: "))
         
@@ -91,7 +95,7 @@ class GUI(UI):
 
 class Settings:
     def __init__(self):
-        self.__options = {"Configure Money":self.configureMoney}
+        self.__options = {"Configure Money":self.configureMoney, "Create Location":self.createLocation, "View Location":self.printLocation}
     
     def menu(self):
         while True:
@@ -123,3 +127,24 @@ Enter an empty line to finish""")
                 coins[name] = value
         World.economy = World.Money(coins)
         print(World.economy)
+    
+    def createLocation(self):
+        """Creates a location in the World.locations list"""
+        name = input("Input the name of the location: ")
+        Type = input("Input the type of location it is eg. city, farmhouse, cave: ")
+        notes = ""
+        print(f"Input notes about {name}. Enter an empty line to enter")
+        while line:=input():
+            notes += line+"\n"
+        World.locations.append(World.Location(name, Type, notes))
+    
+    def printLocation(self):
+        """Lists out the locations in the World.locations list
+        Let's the user view one of the locations"""
+        if not World.locations:
+            print("There are no locations. Please Create one before viewing locations")
+            return
+        for i, location in enumerate(World.locations):
+            print(f"{i+1})\t{location.name}")
+        x=int(input("Input a number to view a location: "))-1
+        print(World.locations[x])
