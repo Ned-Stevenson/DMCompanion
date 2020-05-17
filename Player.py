@@ -55,7 +55,16 @@ class Player:
     def longRest(self):
         """Regains all HP"""
         self.__hp = self.__maxHP
+        #Regain Hit dice
+        #self.__class.longRest()
+        #self.__race.longRest()
     
+    def shortRest(self, fromLong=False):
+        if not fromLong:
+            #Spend hit dice
+        #self.__class.shortRest()
+        #self.__race.shortRest()
+
     def assignXP(self, quantity):
         self.__xp += quantity
 
