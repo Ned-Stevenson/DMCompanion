@@ -61,6 +61,7 @@ class Player:
     
     def shortRest(self, fromLong=False):
         if not fromLong:
+            pass
             #Spend hit dice
         #self.__class.shortRest()
         #self.__race.shortRest()
